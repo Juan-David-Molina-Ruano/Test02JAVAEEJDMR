@@ -19,13 +19,11 @@ public class DetalleOrdenJDMR {
     @NotNull(message = "El precio es requerido")
     private BigDecimal precioJDMR;
 
-    // Relación ManyToOne con ProductoJDMR
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) // Agrega cascade aquí
     @JoinColumn(name = "producto_id", nullable = false)
     private ProductoJDMR productoJDMR;
 
-    // Relación ManyToOne con OrdenJDMR
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) // Agrega cascade aquí
     @JoinColumn(name = "orden_id", nullable = false)
     private OrdenJDMR ordenJDMR;
 
@@ -68,5 +66,5 @@ public class DetalleOrdenJDMR {
     public void setOrdenJDMR(OrdenJDMR ordenJDMR) {
         this.ordenJDMR = ordenJDMR;
     }
-    
+
 }

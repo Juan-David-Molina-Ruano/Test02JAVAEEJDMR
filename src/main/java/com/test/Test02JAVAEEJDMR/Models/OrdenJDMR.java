@@ -1,6 +1,7 @@
 package com.test.Test02JAVAEEJDMR.Models;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -17,6 +18,18 @@ public class OrdenJDMR {
     @NotNull(message = "La fecha de la orden es requerida")
     private Date fechaOrdenJDMR;
     
+    @OneToMany(mappedBy = "ordenJDMR", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleOrdenJDMR> detalles;
+
+
+    public List<DetalleOrdenJDMR> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<DetalleOrdenJDMR> detalles) {
+        this.detalles = detalles;
+    }
+
     public Long getId() {
         return id;
     }
