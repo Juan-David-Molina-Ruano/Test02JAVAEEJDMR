@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,7 +62,48 @@ public class ProductoJDMRController {
         }
 
         productoJDMRService.crearOEditar(productoJDMR);
-        attributes.addFlashAttribute("msg", "Producto creado correctamente");
+        attributes.addFlashAttribute("msg", "Producto modificado correctamente");
         return "redirect:/productos/index";
     }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        ProductoJDMR productoJDMR = productoJDMRService.buscarPorId(id).get();
+        model.addAttribute("productoJDMR", productoJDMR);
+        return "/productos/edit";
+    }
+
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable("id") Long id, Model model) {
+        Optional<ProductoJDMR> productoOpt = productoJDMRService.buscarPorId(id);
+        if (productoOpt.isPresent()) {
+            ProductoJDMR productoJDMR = productoOpt.get();
+            model.addAttribute("productoJDMR", productoJDMR);
+            return "productos/details"; // Asegúrate de que esta ruta coincide con la estructura de carpetas
+        } else {
+            // Manejo de error si el producto no existe
+            return "redirect:/productos/index"; // Redirige a una página de error o lista
+        }
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Long id, Model model) {
+        System.out.println("Remove method called with ID: " + id);
+        Optional<ProductoJDMR> productoOpt = productoJDMRService.buscarPorId(id);
+        if (productoOpt.isPresent()) {
+            ProductoJDMR productoJDMR = productoOpt.get();
+            model.addAttribute("productoJDMR", productoJDMR);
+            return "/productos/delete";
+        } else {
+            return "redirect:/productos/index";
+        }
+    }
+
+    @PostMapping("/delete")
+    public String delete(ProductoJDMR productoJDMR, RedirectAttributes attributes) {
+        productoJDMRService.eliminarPorId(productoJDMR.getId());
+        attributes.addFlashAttribute("msg", "Producto eliminado correctamente");
+        return "redirect:/productos/index";
+    }
+
 }
