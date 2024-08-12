@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.test.Test02JAVAEEJDMR.Models.OrdenJDMR;
-import com.test.Test02JAVAEEJDMR.Models.ProductoJDMR;
 import com.test.Test02JAVAEEJDMR.Services.Interfaces.IOrdenJDMRService;
 
 @Controller
